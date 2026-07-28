@@ -1,0 +1,26 @@
+.DS_Store
+.idea/
+main.py
+__pycache__/
+*.py[cod]
+.venv/
+
+# Large local source and derived data
+emails_lloyds.zip
+email.csv
+outputs/email_features.csv
+outputs/baseline_scored_emails.csv
+outputs/*reviewed_emails.csv
+outputs/ldap_combined.csv
+outputs/_benchmark_*.csv
+
+# Commit only compact, reportable output summaries and figures
+outputs/*
+!outputs/*.json
+!outputs/model_comparison.csv
+!outputs/scenario_coverage.csv
+!outputs/linucb_sensitivity.csv
+!outputs/daily_baseline_metrics.csv
+!outputs/linucb_*_daily_metrics.csv
+!outputs/figures/
+!outputs/figures/*.svg

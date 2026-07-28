@@ -1,0 +1,26 @@
+{
+  "method": "budget-constrained LinUCB daily replay",
+  "train_end": "2010-07-31",
+  "n_train": 4666369,
+  "n_test": 6328588,
+  "review_budget": 0.005,
+  "alpha": 1.0,
+  "ridge": 1.0,
+  "review_cost": 1.0,
+  "true_positive_reward": 10.0,
+  "n_reviewed": 31791,
+  "true_positives": 18,
+  "available_malicious": 135,
+  "precision_at_budget": 0.000566197980560536,
+  "recall_at_budget": 0.13333333333333333,
+  "false_positive_rate_at_budget": 0.005020658287262306,
+  "cumulative_reward": -31593.0,
+  "oracle_reward": -30306.0,
+  "cumulative_regret": 1287.0,
+  "n_days": 304,
+  "scenario_true_positives": {
+    "3": 17,
+    "4": 1
+  },
+  "reviewed_output": "/Users/clggmac/Edinburgh/dissertation/lloyds/python_code/outputs/linucb_0p5_reviewed_emails.csv"
+}

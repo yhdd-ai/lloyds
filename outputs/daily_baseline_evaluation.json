@@ -1,0 +1,44 @@
+{
+  "method": "static anomaly baseline with daily review capacity",
+  "budget_metrics": {
+    "0.1%": {
+      "n_test": 6328588,
+      "n_reviewed": 6493,
+      "true_positives": 3,
+      "available_malicious": 135,
+      "precision_at_budget": 0.00046203603881102723,
+      "recall_at_budget": 0.022222222222222223,
+      "false_positive_rate_at_budget": 0.0010255270916920771,
+      "scenario_true_positives": {
+        "3": 1,
+        "4": 2
+      }
+    },
+    "0.5%": {
+      "n_test": 6328588,
+      "n_reviewed": 31791,
+      "true_positives": 27,
+      "available_malicious": 135,
+      "precision_at_budget": 0.000849296970840804,
+      "recall_at_budget": 0.2,
+      "false_positive_rate_at_budget": 0.005019236138753025,
+      "scenario_true_positives": {
+        "3": 1,
+        "4": 26
+      }
+    },
+    "1.0%": {
+      "n_test": 6328588,
+      "n_reviewed": 63437,
+      "true_positives": 32,
+      "available_malicious": 135,
+      "precision_at_budget": 0.0005044374733988051,
+      "recall_at_budget": 0.23703703703703705,
+      "false_positive_rate_at_budget": 0.010019036247879221,
+      "scenario_true_positives": {
+        "3": 1,
+        "4": 31
+      }
+    }
+  }
+}

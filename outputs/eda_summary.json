@@ -1,0 +1,51 @@
+{
+  "total_rows_scanned": 10994957,
+  "distinct_users": 4000,
+  "activity_counts": {
+    "View": 7162491,
+    "Send": 3832466
+  },
+  "size_bytes": {
+    "n": 10994957,
+    "mean": 431656.6564876061,
+    "std": 1059638.7332190054,
+    "min": 5222.0,
+    "max": 14743472.0
+  },
+  "attachments_per_email": {
+    "n": 10994957,
+    "mean": 0.45352601197076076,
+    "std": 1.115990091105734,
+    "min": 0.0,
+    "max": 9.0
+  },
+  "pct_emails_with_attachment": 23.57,
+  "recipients_internal_per_email": {
+    "n": 10994957,
+    "mean": 1.7660345556603814,
+    "std": 1.6874361287779467,
+    "min": 0.0,
+    "max": 18.0
+  },
+  "recipients_external_per_email": {
+    "n": 10994957,
+    "mean": 0.8666920661899815,
+    "std": 1.350040032214074,
+    "min": 0.0,
+    "max": 7.0
+  },
+  "pct_emails_with_external_recipient": 39.64,
+  "content_field_style_check": {
+    "n_sampled": 300,
+    "pct_with_sentence_punctuation": 100.0,
+    "pct_containing_common_stopwords": 100.0,
+    "avg_word_count": 88.3,
+    "example_snippets": [
+      "I-70 serves as the main thoroughfare of the valley, the only area traversed by the freeway in the state with more than a few hundred residents. The first portio",
+      "In any case, an Irish citizen would require the approval of the Government of Ireland to receive an award from a reigning monarch of the United Kingdom in this ",
+      "Candy company Haribo released a raspberry-flavored gummy bear sweet called Cuddly Knut beginning in April 2007. His daily meals were reduced in number from four",
+      "She had fired 243 rounds from her main guns, but had only made four hits: one each on Blucher and Derfflinger, and two on Seydlitz. By early 1918 Lion carried a",
+      "In August 1945, Duque de Caxis carried parts of the Brazilian Expeditionary Force from Naples back to Rio de Janeiro. In October 1933 three short tons (2.7 tonn"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "method": "label-free per-user static anomaly baseline",
+  "feature_file": "/Users/clggmac/Edinburgh/dissertation/lloyds/python_code/outputs/email_features.csv",
+  "train_end": "2010-07-31",
+  "n_train": 4666369,
+  "n_test": 6328588,
+  "n_test_malicious": 135,
+  "min_user_history": 30,
+  "numeric_features": [
+    "size",
+    "attachment_count",
+    "n_recipients_internal",
+    "n_recipients_external",
+    "semantic_deviation"
+  ],
+  "rarity_features": [
+    "has_external_recipient",
+    "is_after_hours",
+    "is_weekend"
+  ],
+  "rarity_weight": 0.5,
+  "budget_metrics": {
+    "0.1%": {
+      "n_reviewed": 6329,
+      "true_positives": 1,
+      "precision_at_budget": 0.00015800284405119292,
+      "recall_at_budget": 0.007407407407407408,
+      "false_positive_rate_at_budget": 0.000999928418525033
+    },
+    "0.5%": {
+      "n_reviewed": 31643,
+      "true_positives": 17,
+      "precision_at_budget": 0.0005372436241822836,
+      "recall_at_budget": 0.1259259259259259,
+      "false_positive_rate_at_budget": 0.004997429861610728
+    },
+    "1.0%": {
+      "n_reviewed": 63286,
+      "true_positives": 31,
+      "precision_at_budget": 0.0004898397749897291,
+      "recall_at_budget": 0.22962962962962963,
+      "false_positive_rate_at_budget": 0.009995333772724551
+    }
+  },
+  "score_output": "/Users/clggmac/Edinburgh/dissertation/lloyds/python_code/outputs/baseline_scored_emails.csv"
+}

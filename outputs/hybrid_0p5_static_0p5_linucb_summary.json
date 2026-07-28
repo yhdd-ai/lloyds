@@ -1,0 +1,21 @@
+{
+  "method": "coverage-balanced static + LinUCB hybrid",
+  "n_test": 6328588,
+  "target_budget": 0.01,
+  "n_reviewed": 63286,
+  "static_budget": 0.005,
+  "linucb_source": "linucb_0p5",
+  "true_positives": 34,
+  "available_malicious": 135,
+  "precision_at_budget": 0.0005372436241822836,
+  "recall_at_budget": 0.2518518518518518,
+  "false_positive_rate_at_budget": 0.009994859723221457,
+  "scenario_true_positives": {
+    "3": 17,
+    "4": 17
+  },
+  "static_initial_selection": 31643,
+  "linucb_initial_selection": 31791,
+  "overlap_removed": 712,
+  "static_fill_selection": 564
+}

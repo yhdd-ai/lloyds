@@ -38,6 +38,7 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 PROJECT_ROOT = Path(__file__).resolve().parent          # .../lloyds/python_code
 DATA_DIR = PROJECT_ROOT.parent                          # .../lloyds
+REPOSITORY_ANSWERS_DIR = PROJECT_ROOT / "data" / "answers"
 
 EMAIL_ZIP = DATA_DIR / "emails_lloyds.zip"
 EMAIL_CSV_NAME_IN_ZIP = "email.csv"
@@ -47,7 +48,9 @@ LDAP_PREFIX_IN_ZIP = "LDAP/"
 # automatically instead of streaming from the zip.
 EMAIL_CSV_EXTRACTED = DATA_DIR / "email.csv"
 
-ANSWERS_DIR = DATA_DIR / "answers"
+# Prefer the compact answer files committed inside a standalone Git checkout.
+# Retain the original parent-directory layout for the existing local project.
+ANSWERS_DIR = REPOSITORY_ANSWERS_DIR if REPOSITORY_ANSWERS_DIR.exists() else DATA_DIR / "answers"
 INSIDERS_INDEX = ANSWERS_DIR / "insiders.csv"
 
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
