@@ -1,0 +1,4 @@
+review_budget,n_days,static_true_positives,linucb_true_positives,linucb_minus_static_true_positives,bootstrap_95ci_lower,bootstrap_95ci_upper,bootstrap_probability_linucb_greater
+0.001,304,3,5,2,-5.0,10.0,0.6455
+0.005,304,27,18,-9,-50.0,32.0,0.3189
+0.01,304,32,35,3,-58.0,77.0,0.5024

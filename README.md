@@ -44,8 +44,8 @@ section 10).
   whole pass stays single-pass and memory-flat), and the ground-truth label
   joined from `malicious_email_ids.csv`. Produces `outputs/email_features.csv`
   -- the input table for Phase 2 (LinUCB) and Phase 2b (anomaly baseline).
-  Requires `sentence-transformers` (not in `requirements.txt` by default,
-  since it pulls in `torch`; add it yourself: `pip install sentence-transformers`).
+  Requires `sentence-transformers` (included in `requirements.txt`; its
+  installation also provides the required PyTorch dependency).
 - `04_anomaly_baseline.py` -- **M3**. Fits a label-free, per-user static
   anomaly baseline through 2010-07-31, then scores later emails. It reports
   Precision, Recall, and false-positive rate at 0.1%, 0.5%, and 1% review
@@ -61,12 +61,15 @@ section 10).
   the shared scaling pass.
 - `08_hybrid_ensemble.py` -- **M5.2**. Builds a fixed-capacity, coverage-
   balanced ensemble from completed static-baseline and LinUCB result logs.
+- `10_bootstrap_policy_comparison.py` -- paired calendar-day percentile
+  bootstrap comparison of static and LinUCB true-positive counts at each
+  review budget. It reports descriptive uncertainty intervals, not an
+  independent-deployment significance claim.
 
 ## Setup
 
 ```bash
 pip install -r requirements.txt
-pip install sentence-transformers   # needed for 03_ (pulls in torch)
 ```
 
 ## Usage
@@ -81,6 +84,7 @@ python 05_linucb_agent.py --limit-chunks 3 --no-output                # M4.1 pip
 python 06_results_analysis.py                                          # M5 comparison tables and figures
 python 07_linucb_sensitivity.py --review-budget 0.01                   # M5.1 sensitivity analysis
 python 08_hybrid_ensemble.py                                            # M5.2 0.5% static + 0.5% LinUCB
+python 10_bootstrap_policy_comparison.py                                 # M5.3 paired day bootstrap
 # measures real embedding throughput without touching outputs/email_features.csv
 python 03_feature_engineering.py --benchmark-chunks 3
 
@@ -115,10 +119,12 @@ real data:**
   rows, confirming the "3 of 5 scenarios" limitation already noted in the
   PRD). The ground-truth join key (`id`) works end-to-end for the full file,
   not just a sample.
-- `03_feature_engineering.py`: pipeline logic (causal per-user deviation
-  scoring, online PCA, label join, chunked CSV output) was smoke-tested with
-  `--mock-embeddings` -- confirmed exactly one `NaN` deviation score per user
-  (their first-ever email, correctly treated as cold-start) and correct
-  weekday/after-hours flags. **Still needed**: a full run with the real
-  `sentence-transformers` embedder (no `--mock-embeddings`) to produce the
-  actual `outputs/email_features.csv` used from Phase 2 onward.
+- `03_feature_engineering.py`: a full real-embedding run completed for all
+  **10,994,957 rows**. Semantic deviation is causal at email level. PCA uses
+  the corrected strict order: transform a chunk with components learned from
+  earlier chunks, then `partial_fit` it for later chunks. The first chunk is a
+  documented PCA warm-up period with missing coordinates.
+- `04_` through `10_`: full downstream static, LinUCB, sensitivity, daily
+  hybrid, and bootstrap-comparison outputs have been generated from that
+  causal feature table. Their compact summaries in `outputs/` correspond to
+  the dissertation tables and figures.

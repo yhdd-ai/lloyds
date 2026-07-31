@@ -9,17 +9,17 @@
   "review_cost": 1.0,
   "true_positive_reward": 10.0,
   "n_reviewed": 6493,
-  "true_positives": 2,
+  "true_positives": 5,
   "available_malicious": 135,
-  "precision_at_budget": 0.00030802402587401816,
-  "recall_at_budget": 0.014814814814814815,
-  "false_positive_rate_at_budget": 0.0010256851081931083,
-  "cumulative_reward": -6471.0,
+  "precision_at_budget": 0.0007700600646850454,
+  "recall_at_budget": 0.037037037037037035,
+  "false_positive_rate_at_budget": 0.0010252110586900147,
+  "cumulative_reward": -6438.0,
   "oracle_reward": -5030.0,
-  "cumulative_regret": 1441.0,
+  "cumulative_regret": 1408.0,
   "n_days": 304,
   "scenario_true_positives": {
-    "4": 2
+    "3": 5
   },
   "reviewed_output": "/Users/clggmac/Edinburgh/dissertation/lloyds/python_code/outputs/linucb_0p1_reviewed_emails.csv"
 }

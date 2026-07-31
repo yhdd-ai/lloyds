@@ -20,7 +20,9 @@ outputs/*
 !outputs/model_comparison.csv
 !outputs/scenario_coverage.csv
 !outputs/linucb_sensitivity.csv
+!outputs/bootstrap_policy_comparison.csv
 !outputs/daily_baseline_metrics.csv
 !outputs/linucb_*_daily_metrics.csv
+!outputs/README.md
 !outputs/figures/
 !outputs/figures/*.svg

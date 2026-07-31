@@ -3,8 +3,8 @@ Static anomaly baseline,0.001,2,13,0,0.0
 Static anomaly baseline,0.001,3,52,1,0.019230769230769232
 Static anomaly baseline,0.001,4,70,2,0.02857142857142857
 LinUCB,0.001,2,13,0,0.0
-LinUCB,0.001,3,52,0,0.0
-LinUCB,0.001,4,70,2,0.02857142857142857
+LinUCB,0.001,3,52,5,0.09615384615384616
+LinUCB,0.001,4,70,0,0.0
 Static anomaly baseline,0.005,2,13,0,0.0
 Static anomaly baseline,0.005,3,52,1,0.019230769230769232
 Static anomaly baseline,0.005,4,70,26,0.37142857142857144
@@ -19,4 +19,4 @@ LinUCB,0.01,3,52,35,0.6730769230769231
 LinUCB,0.01,4,70,0,0.0
 Coverage-balanced hybrid,0.01,2,13,0,0.0
 Coverage-balanced hybrid,0.01,3,52,17,0.3269230769230769
-Coverage-balanced hybrid,0.01,4,70,17,0.24285714285714285
+Coverage-balanced hybrid,0.01,4,70,27,0.38571428571428573

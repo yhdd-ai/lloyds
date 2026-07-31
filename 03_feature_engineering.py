@@ -22,14 +22,13 @@ the features below need to stay leak-free:
    than silently coercing to 0.
 
 2. The embedding dimensionality reduction (384 -> config.PCA_COMPONENTS) uses
-   scikit-learn's IncrementalPCA, fitted incrementally with .partial_fit() on
-   each chunk as it streams past and applied with .transform() using
-   whatever state the PCA has accumulated *so far*. This means embeddings
-   from early chunks are projected using a PCA fitted on less data than later
-   chunks -- a deliberate choice, not an oversight: it keeps the whole
-   pipeline single-pass and online, consistent with the project's framing of
-   detection as an online-learning problem (this is also exactly the
-   assumption the LinUCB agent in Phase 2 will run under).
+   scikit-learn's IncrementalPCA. Each chunk is first transformed with PCA
+   components fitted on *previous chunks only*, then .partial_fit() updates
+   those components for future chunks. The first chunk has no PCA basis and
+   therefore receives missing PCA coordinates; downstream modelling treats it
+   as an explicitly documented warm-up period. This preserves the strict
+   chronological information boundary required for the online-learning
+   evaluation.
 
 Metadata features computed per email
 -------------------------------------
@@ -60,6 +59,7 @@ import argparse
 import re
 import time
 from importlib import import_module
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -215,9 +215,16 @@ def run_feature_engineering(
     mock_embeddings: bool,
     limit_chunks: int | None,
     output_path=None,
+    replace_output_on_success: bool = True,
 ) -> dict:
     """Run feature engineering, writing to ``output_path`` when supplied."""
-    output_path = output_path or config.FEATURES_OUTPUT
+    output_path = Path(output_path or config.FEATURES_OUTPUT)
+    # Keep an existing completed feature table intact until a replacement has
+    # been generated successfully.  This matters because the full real-embedder
+    # run takes many hours and may be interrupted.
+    working_output_path = output_path.with_name(
+        f"{output_path.stem}.in_progress{output_path.suffix}"
+    )
     embedder = get_embedder(mock_embeddings)
     baseline_tracker = UserBaselineTracker()
     pca = IncrementalPCA(n_components=config.PCA_COMPONENTS)
@@ -230,10 +237,10 @@ def run_feature_engineering(
     total_rows = 0
     total_malicious_written = 0
 
-    # start each run from a clean output file (feature engineering is cheap
-    # enough to re-run in full; partial-resume is not implemented here)
-    if output_path.exists():
-        output_path.unlink()
+    # Start a fresh staging file.  The completed output is replaced only after
+    # the full streaming pass succeeds; partial resume is not implemented.
+    if working_output_path.exists():
+        working_output_path.unlink()
     header_written = False
 
     run_start = time.time()
@@ -250,16 +257,18 @@ def run_feature_engineering(
               f"time with --mock-embeddings, something else is wrong)")
         embeddings = embedder.encode(chunk["content"].tolist())
 
-        # PCA: fit on this chunk's embeddings, then transform using the state
-        # accumulated so far (causal -- see module docstring). IncrementalPCA
-        # requires at least n_components samples per partial_fit call.
-        if len(chunk) >= config.PCA_COMPONENTS:
-            pca.partial_fit(embeddings)
+        # PCA: transform with components fitted on prior chunks only, then
+        # update the components using this chunk for future chunks.  Updating
+        # first would allow each row to influence its own coordinates and the
+        # coordinates of later rows in the chunk.
         if hasattr(pca, "components_"):
             reduced = pca.transform(embeddings)
         else:
-            # not enough data yet to have fitted a single component
+            # The warm-up chunk has no historical PCA basis.
             reduced = np.full((len(chunk), config.PCA_COMPONENTS), np.nan)
+        # IncrementalPCA requires at least n_components samples per update.
+        if len(chunk) >= config.PCA_COMPONENTS:
+            pca.partial_fit(embeddings)
 
         deviations = np.empty(len(chunk), dtype=float)
         users = chunk["user"].tolist()
@@ -282,7 +291,7 @@ def run_feature_engineering(
         out["is_malicious"] = is_malicious.values
 
         out.to_csv(
-            output_path,
+            working_output_path,
             mode="a",
             header=not header_written,
             index=False,
@@ -305,6 +314,14 @@ def run_feature_engineering(
         if limit_chunks is not None and (i + 1) >= limit_chunks:
             print(f"[info] --limit-chunks={limit_chunks} reached, stopping early")
             break
+
+    # A deliberately limited run is normally a smoke test, not a replacement
+    # for a completed feature table.  Benchmark mode explicitly opts in to a
+    # temporary replacement, which main() deletes immediately afterwards.
+    if replace_output_on_success:
+        working_output_path.replace(output_path)
+    else:
+        output_path = working_output_path
 
     total_elapsed = time.time() - run_start
     rows_per_sec = total_rows / total_elapsed if total_elapsed > 0 else 0
@@ -352,6 +369,9 @@ def main():
             mock_embeddings=args.mock_embeddings,
             limit_chunks=args.benchmark_chunks or args.limit_chunks,
             output_path=benchmark_path,
+            replace_output_on_success=(
+                args.benchmark_chunks is not None or args.limit_chunks is None
+            ),
         )
     finally:
         if benchmark_path is not None and benchmark_path.exists():

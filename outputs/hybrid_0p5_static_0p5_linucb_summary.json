@@ -2,20 +2,20 @@
   "method": "coverage-balanced static + LinUCB hybrid",
   "n_test": 6328588,
   "target_budget": 0.01,
-  "n_reviewed": 63286,
+  "n_reviewed": 63437,
   "static_budget": 0.005,
   "linucb_source": "linucb_0p5",
-  "true_positives": 34,
+  "true_positives": 44,
   "available_malicious": 135,
-  "precision_at_budget": 0.0005372436241822836,
-  "recall_at_budget": 0.2518518518518518,
-  "false_positive_rate_at_budget": 0.009994859723221457,
+  "precision_at_budget": 0.000693601525923357,
+  "recall_at_budget": 0.32592592592592595,
+  "false_positive_rate_at_budget": 0.010017140049866848,
   "scenario_true_positives": {
     "3": 17,
-    "4": 17
+    "4": 27
   },
-  "static_initial_selection": 31643,
+  "static_initial_selection": 31791,
   "linucb_initial_selection": 31791,
-  "overlap_removed": 712,
-  "static_fill_selection": 564
+  "overlap_removed": 768,
+  "static_fill_selection": 662
 }
